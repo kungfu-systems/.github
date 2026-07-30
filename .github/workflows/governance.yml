@@ -1,0 +1,27 @@
+name: Governance
+
+on:
+  pull_request:
+  merge_group:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  governance:
+    name: governance
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Verify organization governance sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fxq '* @kungfu-origin' .github/CODEOWNERS
+          test -s CODE_OF_CONDUCT.md
+          test -s CONTRIBUTING.md
+          test -s GOVERNANCE.md
+          test -s SECURITY.md
+          test -s SUPPORT.md
